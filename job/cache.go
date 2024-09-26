@@ -313,12 +313,19 @@ func (c *LockFreeJobCache) Set(j *Job) error {
 }
 
 func (c *LockFreeJobCache) Delete(id string) error {
+	log.Debug("Start Job Cache Delete")
+
 	j, err := c.Get(id)
 	if err != nil {
 		return ErrJobDoesntExist
 	}
+
+	log.Debug("Got Job")
+
 	j.lock.Lock()
 	defer j.lock.Unlock()
+
+	log.Debug("Pre DB Delete")
 
 	err = c.jobDB.Delete(id)
 	if err != nil {
@@ -328,18 +335,12 @@ func (c *LockFreeJobCache) Delete(id string) error {
 		}
 	}
 
+	log.Debug("Post DB Delete")
+
 	j.lock.Unlock()
 	j.StopTimer()
 	j.lock.Lock()
 
-	go func() {
-		log.Errorln(j.DeleteFromParentJobs(c)) // todo: review
-	}()
-	// Remove itself from dependent jobs as a parent job
-	// and possibly delete child jobs if they don't have any other parents.
-	go func() {
-		log.Errorln(j.DeleteFromDependentJobs(c)) // todo: review
-	}()
 	log.Infof("Deleting %s", id)
 	c.jobs.Del(id)
 	return err
