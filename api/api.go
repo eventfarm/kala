@@ -184,18 +184,7 @@ func HandleJobRequest(cache job.JobCache) func(w http.ResponseWriter, r *http.Re
 			if err != nil {
 				errorEncodeJSON(err, http.StatusInternalServerError, w)
 			} else {
-				w.WriteHeader(http.StatusNotFound)
-				return
-				w.Header().Set(contentType, jsonContentType)
-				w.WriteHeader(http.StatusOK)
-				resp := &AddJobResponse{
-					Id: id,
-				}
-
-				if err := json.NewEncoder(w).Encode(resp); err != nil {
-					log.Errorf("Error occurred when marshaling response: %s", err)
-					return
-				}
+				handleGetJob(w, r, j)
 			}
 		} else if r.Method == "GET" {
 			handleGetJob(w, r, j)
