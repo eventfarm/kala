@@ -153,18 +153,6 @@ func (c *MemoryJobCache) Delete(id string) error {
 	}
 
 	j.lock.Unlock()
-	j.StopTimer()
-	j.lock.Lock()
-
-	go func() {
-		log.Errorln(j.DeleteFromParentJobs(c)) // todo: review
-	}()
-
-	// Remove itself from dependent jobs as a parent job
-	// and possibly delete child jobs if they don't have any other parents.
-	go func() {
-		log.Errorln(j.DeleteFromDependentJobs(c)) // todo: review
-	}()
 
 	delete(c.jobs.Jobs, id)
 
