@@ -145,22 +145,22 @@ func (kc *KalaClient) GetAllJobs() (map[string]*job.Job, error) {
 // 		c := New("http://127.0.0.1:8000")
 //		id := "93b65499-b211-49ce-57e0-19e735cc5abd"
 //		ok, err := c.DeleteJob(id)
-func (kc *KalaClient) DeleteJob(id string) (bool, error) {
+func (kc *KalaClient) DeleteJob(id string) (string, error) {
 	status, err := kc.do(methodDelete, kc.url(jobPath, id), http.StatusOK, nil, nil)
 	if err != nil {
 		if err == ErrGenericError {
-			return false, fmt.Errorf("Delete failed with a status code of %d", status)
+			return id, fmt.Errorf("Delete failed with a status code of %d", status)
 		}
-		return false, err
+		return id, err
 	}
-	return true, nil
+	return id, nil
 }
 
 // DeleteAllJobs is used to delete all jobs from Kala
 // Example:
 // 		c := New("http://127.0.0.1:8000")
 //		ok, err := c.DeleteAllJobs()
-func (kc *KalaClient) DeleteAllJobs() (bool, error) {
+func (kc *KalaClient) DeleteAllJobs() (string, error) {
 	return kc.DeleteJob("all")
 }
 
