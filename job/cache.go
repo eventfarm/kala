@@ -325,20 +325,18 @@ func (c *LockFreeJobCache) Delete(id string) error {
 		}
 	}
 
-	j.lock.Unlock()
-	j.StopTimer()
-	j.lock.Lock()
+	// j.lock.Unlock()
+	// j.StopTimer()
+	// j.lock.Lock()
 
-	go func() {
-		log.Errorln(j.DeleteFromParentJobs(c)) // todo: review
-	}()
-	// Remove itself from dependent jobs as a parent job
-	// and possibly delete child jobs if they don't have any other parents.
-	go func() {
-		log.Errorln(j.DeleteFromDependentJobs(c)) // todo: review
-	}()
-
-	j.lock.Unlock()
+	// go func() {
+	// 	log.Errorln(j.DeleteFromParentJobs(c)) // todo: review
+	// }()
+	// // Remove itself from dependent jobs as a parent job
+	// // and possibly delete child jobs if they don't have any other parents.
+	// go func() {
+	// 	log.Errorln(j.DeleteFromDependentJobs(c)) // todo: review
+	// }()
 
 	log.Infof("Deleting %s", id)
 	c.jobs.Del(id)
