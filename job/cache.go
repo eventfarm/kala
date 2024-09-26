@@ -337,9 +337,9 @@ func (c *LockFreeJobCache) Delete(id string) error {
 
 	log.Debug("Post DB Delete")
 
-	j.lock.Unlock()
-	j.StopTimer()
-	j.lock.Lock()
+	// j.lock.Unlock()
+	// j.StopTimer()
+	// j.lock.Lock()
 
 	log.Infof("Deleting %s", id)
 	c.jobs.Del(id)
