@@ -137,8 +137,8 @@ func (c *MemoryJobCache) Delete(id string) error {
 
 	log.Debug("Start Job Cache Delete")
 
-	c.jobs.Lock.Lock()
-	defer c.jobs.Lock.Unlock()
+	// c.jobs.Lock.Lock()
+	// defer c.jobs.Lock.Unlock()
 
 	j := c.jobs.Jobs[id]
 
@@ -147,8 +147,8 @@ func (c *MemoryJobCache) Delete(id string) error {
 	if j == nil {
 		return ErrJobDoesntExist
 	}
-	j.lock.Lock()
-	defer j.lock.Unlock()
+	// j.lock.Lock()
+	// defer j.lock.Unlock()
 
 	log.Debug("Pre Delete From DB")
 
@@ -163,9 +163,9 @@ func (c *MemoryJobCache) Delete(id string) error {
 		}
 	}
 
-	j.lock.Unlock()
-	j.StopTimer()
-	j.lock.Lock()
+	// j.lock.Unlock()
+	// j.StopTimer()
+	// j.lock.Lock()
 
 	delete(c.jobs.Jobs, id)
 
