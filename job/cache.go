@@ -134,17 +134,28 @@ func (c *MemoryJobCache) Set(j *Job) error {
 }
 
 func (c *MemoryJobCache) Delete(id string) error {
+
+	log.Debug("Start Job Cache Delete")
+
 	c.jobs.Lock.Lock()
 	defer c.jobs.Lock.Unlock()
 
 	j := c.jobs.Jobs[id]
+
+	log.Debug("Got Job From Cache")
+
 	if j == nil {
 		return ErrJobDoesntExist
 	}
 	j.lock.Lock()
 	defer j.lock.Unlock()
 
+	log.Debug("Pre Delete From DB")
+
 	err := c.jobDB.Delete(id)
+
+	log.Debug("Post Delete From DB")
+
 	if err != nil {
 		err = fmt.Errorf("Error occurred while trying to delete job from db: %s", err)
 		if c.PersistOnWrite {
@@ -156,17 +167,9 @@ func (c *MemoryJobCache) Delete(id string) error {
 	j.StopTimer()
 	j.lock.Lock()
 
-	go func() {
-		log.Errorln(j.DeleteFromParentJobs(c)) // todo: review
-	}()
-
-	// Remove itself from dependent jobs as a parent job
-	// and possibly delete child jobs if they don't have any other parents.
-	go func() {
-		log.Errorln(j.DeleteFromDependentJobs(c)) // todo: review
-	}()
-
 	delete(c.jobs.Jobs, id)
+
+	log.Debug("Post Delete Cache")
 
 	return err
 }

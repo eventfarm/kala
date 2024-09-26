@@ -23,7 +23,11 @@ type JobDB interface {
 
 func (j *Job) Delete(cache JobCache) error {
 	var err error
+	log.Debug("Pre Cache Delete")
+
 	errOne := cache.Delete(j.Id)
+	log.Debug("Post Cache Delete")
+
 	if errOne != nil {
 		log.Errorf("Error occurred while trying to delete job from cache: %s", errOne)
 		err = errOne
