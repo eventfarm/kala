@@ -151,7 +151,7 @@ func (a *ApiTestSuite) TestDeleteJobSuccess() {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	a.NoError(err)
-	a.Equal(resp.StatusCode, http.StatusOk)
+	a.Equal(resp.StatusCode, http.StatusOK)
 
 	a.Nil(cache.Get(j.Id))
 }
@@ -171,7 +171,7 @@ func (a *ApiTestSuite) TestDeleteAllJobsSuccess() {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	a.NoError(err)
-	a.Equal(resp.StatusCode, http.StatusOk)
+	a.Equal(resp.StatusCode, http.StatusOK)
 
 	a.Equal(0, len(cache.GetAll().Jobs))
 	a.Nil(cache.Get(jobOne.Id))
@@ -308,7 +308,7 @@ func (a *ApiTestSuite) TestHandleStartJobRequest() {
 
 	now := time.Now()
 
-	a.Equal(resp.StatusCode, http.StatusOk)
+	a.Equal(resp.StatusCode, http.StatusOK)
 
 	a.Equal(j.Metadata.SuccessCount, uint(1))
 	a.WithinDuration(j.Metadata.LastSuccess, now, 2*time.Second)
@@ -338,7 +338,7 @@ func (a *ApiTestSuite) TestHandleEnableJobRequest() {
 	resp, err := client.Do(req)
 	a.NoError(err)
 
-	a.Equal(http.StatusOk, resp.StatusCode)
+	a.Equal(http.StatusOK, resp.StatusCode)
 
 	a.Equal(false, j.Disabled)
 }
@@ -364,7 +364,7 @@ func (a *ApiTestSuite) TestHandleDisableJobRequest() {
 	resp, err := client.Do(req)
 	a.NoError(err)
 
-	a.Equal(http.StatusOk, resp.StatusCode)
+	a.Equal(http.StatusOK, resp.StatusCode)
 
 	a.Equal(true, j.Disabled)
 }

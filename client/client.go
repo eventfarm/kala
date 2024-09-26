@@ -146,7 +146,7 @@ func (kc *KalaClient) GetAllJobs() (map[string]*job.Job, error) {
 //		id := "93b65499-b211-49ce-57e0-19e735cc5abd"
 //		ok, err := c.DeleteJob(id)
 func (kc *KalaClient) DeleteJob(id string) (bool, error) {
-	status, err := kc.do(methodDelete, kc.url(jobPath, id), http.StatusOk, nil, nil)
+	status, err := kc.do(methodDelete, kc.url(jobPath, id), http.StatusOK, nil, nil)
 	if err != nil {
 		if err == ErrGenericError {
 			return false, fmt.Errorf("Delete failed with a status code of %d", status)
@@ -181,7 +181,7 @@ func (kc *KalaClient) GetJobStats(id string) ([]*job.JobStat, error) {
 //		id := "93b65499-b211-49ce-57e0-19e735cc5abd"
 //		ok, err := c.StartJob(id)
 func (kc *KalaClient) StartJob(id string) (bool, error) {
-	_, err := kc.do(methodPost, kc.url(jobPath, "start", id), http.StatusOk, nil, nil)
+	_, err := kc.do(methodPost, kc.url(jobPath, "start", id), http.StatusOK, nil, nil)
 	if err != nil {
 		if err == ErrGenericError {
 			return false, nil
@@ -207,7 +207,7 @@ func (kc *KalaClient) GetKalaStats() (*job.KalaStats, error) {
 //		id := "93b65499-b211-49ce-57e0-19e735cc5abd"
 //		ok, err := c.DisableJob(id)
 func (kc *KalaClient) DisableJob(id string) (bool, error) {
-	status, err := kc.do(methodPost, kc.url(jobPath, "disable", id), http.StatusOk, nil, nil)
+	status, err := kc.do(methodPost, kc.url(jobPath, "disable", id), http.StatusOK, nil, nil)
 	if err != nil {
 		if err == ErrGenericError {
 			return false, fmt.Errorf("Disable failed with a status code of %d", status)
@@ -223,7 +223,7 @@ func (kc *KalaClient) DisableJob(id string) (bool, error) {
 //		id := "93b65499-b211-49ce-57e0-19e735cc5abd"
 //		ok, err := c.EnableJob(id)
 func (kc *KalaClient) EnableJob(id string) (bool, error) {
-	status, err := kc.do(methodPost, kc.url(jobPath, "enable", id), http.StatusOk, nil, nil)
+	status, err := kc.do(methodPost, kc.url(jobPath, "enable", id), http.StatusOK, nil, nil)
 	if err != nil {
 		if err == ErrGenericError {
 			return false, fmt.Errorf("Enable failed with a status code of %d", status)
