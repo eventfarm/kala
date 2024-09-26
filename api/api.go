@@ -184,6 +184,8 @@ func HandleJobRequest(cache job.JobCache) func(w http.ResponseWriter, r *http.Re
 			if err != nil {
 				errorEncodeJSON(err, http.StatusInternalServerError, w)
 			} else {
+				w.WriteHeader(http.StatusNotFound)
+				return
 				w.Header().Set(contentType, jsonContentType)
 				w.WriteHeader(http.StatusOK)
 				resp := &AddJobResponse{
