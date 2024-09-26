@@ -184,7 +184,7 @@ func HandleJobRequest(cache job.JobCache) func(w http.ResponseWriter, r *http.Re
 			if err != nil {
 				errorEncodeJSON(err, http.StatusInternalServerError, w)
 			} else {
-				w.WriteHeader(http.StatusNoContent)
+				w.WriteHeader(http.StatusOk)
 			}
 		} else if r.Method == "GET" {
 			handleGetJob(w, r, j)
@@ -199,7 +199,7 @@ func HandleDeleteAllJobs(cache job.JobCache) func(w http.ResponseWriter, r *http
 		if err := job.DeleteAll(cache); err != nil {
 			errorEncodeJSON(err, http.StatusInternalServerError, w)
 		} else {
-			w.WriteHeader(http.StatusNoContent)
+			w.WriteHeader(http.StatusOk)
 		}
 	}
 }
@@ -240,7 +240,7 @@ func HandleStartJobRequest(cache job.JobCache) func(w http.ResponseWriter, r *ht
 		j.StopTimer()
 		j.Run(cache)
 
-		w.WriteHeader(http.StatusNoContent)
+		w.WriteHeader(http.StatusOk)
 	}
 }
 
@@ -265,7 +265,7 @@ func HandleDisableJobRequest(cache job.JobCache) func(w http.ResponseWriter, r *
 			return
 		}
 
-		w.WriteHeader(http.StatusNoContent)
+		w.WriteHeader(http.StatusOk)
 	}
 }
 
@@ -290,7 +290,7 @@ func HandleEnableJobRequest(cache job.JobCache) func(w http.ResponseWriter, r *h
 			return
 		}
 
-		w.WriteHeader(http.StatusNoContent)
+		w.WriteHeader(http.StatusOk)
 	}
 }
 
