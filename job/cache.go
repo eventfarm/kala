@@ -337,6 +337,9 @@ func (c *LockFreeJobCache) Delete(id string) error {
 	go func() {
 		log.Errorln(j.DeleteFromDependentJobs(c)) // todo: review
 	}()
+
+	j.lock.Unlock()
+
 	log.Infof("Deleting %s", id)
 	c.jobs.Del(id)
 	return err
