@@ -30,7 +30,7 @@ var serveCmd = &cobra.Command{
 	Long:  `start the kala server with the backing store of your choice, and run until interrupted`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if viper.GetBool("verbose") {
-			log.SetLevel(log.PanicLevel)
+			log.SetLevel(log.TraceLevel)
 		}
 
 		var parsedPort string
