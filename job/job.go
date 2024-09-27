@@ -530,35 +530,10 @@ func (j *Job) Run(cache JobCache) {
 }
 
 func (j *Job) StopTimer() {
-	// j.lock.Lock()
-	// defer j.lock.Unlock()
-
-	log.Infof("before stop timer")
-
-	if j == nil {
-		log.Infof("job is nil")
-	}
-
-	log.Infof("Job %s with id %s tried to run, but exited early because it has been deleted", j.Name, j.Id)
-
+	j.lock.Lock()
+	defer j.lock.Unlock()
 	if j.jobTimer != nil {
-		defer recoverFromPanic()
-		didStop := j.jobTimer.Stop()
-
-		if didStop {
-			log.Infof("timer stopped")
-		} else {
-			log.Infof("timer did not stopped")
-
-		}
-	}
-	log.Infof("return stopped timer")
-}
-
-func recoverFromPanic() {
-	if r := recover(); r != nil {
-		fmt.Println("Recovered from panic:", r)
-		// Perform any necessary cleanup or error handling here
+		j.jobTimer.Stop()
 	}
 }
 

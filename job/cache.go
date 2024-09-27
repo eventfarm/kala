@@ -314,9 +314,6 @@ func (c *LockFreeJobCache) Delete(id string) error {
 	if err != nil {
 		return ErrJobDoesntExist
 	}
-
-	log.Infof("Before stop %s", id)
-	j.StopTimer()
 	j.lock.Lock()
 	defer j.lock.Unlock()
 
@@ -334,7 +331,6 @@ func (c *LockFreeJobCache) Delete(id string) error {
 
 	log.Infof("Deleting %s", id)
 	c.jobs.Del(id)
-
 	return err
 }
 
