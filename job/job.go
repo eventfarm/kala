@@ -534,6 +534,11 @@ func (j *Job) StopTimer() {
 	// defer j.lock.Unlock()
 
 	log.Infof("before stop timer")
+
+	if j == nil {
+		log.Infof("job is nil")
+	}
+
 	if j.jobTimer != nil {
 		didStop := j.jobTimer.Stop()
 
