@@ -531,12 +531,13 @@ func (j *Job) Run(cache JobCache) {
 
 func (j *Job) StopTimer() {
 	j.lock.Lock()
-	defer j.lock.Unlock()
+
 	log.Infof("before stop timer")
 	if j.jobTimer != nil {
 		j.jobTimer.Stop()
 		log.Infof("timer stopped")
 	}
+	j.lock.Unlock()
 	log.Infof("return stopped timer")
 }
 
