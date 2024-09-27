@@ -539,7 +539,7 @@ func (j *Job) StopTimer() {
 		log.Infof("job is nil")
 	}
 
-	log.Infof("Job %s with id %s tried to run, but exited early because it has been deleted", <-j.jobTimer.Chan(), j.Id)
+	log.Infof("Job %s with id %s tried to run, but exited early because it has been deleted", j.Name, j.Id)
 
 	if j.jobTimer != nil {
 		didStop := j.jobTimer.Stop()
