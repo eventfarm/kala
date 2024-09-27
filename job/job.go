@@ -542,9 +542,8 @@ func (j *Job) StopTimer() {
 	log.Infof("Job %s with id %s tried to run, but exited early because it has been deleted", j.Name, j.Id)
 
 	if j.jobTimer != nil {
+		defer recoverFromPanic()
 		didStop := j.jobTimer.Stop()
-
-		<-j.jobTimer.Chan()
 
 		if didStop {
 			log.Infof("timer stopped")
@@ -554,6 +553,13 @@ func (j *Job) StopTimer() {
 		}
 	}
 	log.Infof("return stopped timer")
+}
+
+func recoverFromPanic() {
+	if r := recover(); r != nil {
+		fmt.Println("Recovered from panic:", r)
+		// Perform any necessary cleanup or error handling here
+	}
 }
 
 func (j *Job) RunCmd() (string, error) {
