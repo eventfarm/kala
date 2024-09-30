@@ -5,4 +5,4 @@ COPY . .
 RUN go build && mv kala /usr/bin
 
 CMD ["kala", "serve"]
-EXPOSE 8000
+EXPOSE 4000
